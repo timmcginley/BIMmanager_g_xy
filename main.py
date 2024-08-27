@@ -1,13 +1,12 @@
 import ifcopenshell
 
-import analyst_gr10.rules
-import analyst_gr11.rules
+from .external.BIManalyst_g_xy.rules import windowRule
+from .external.BIManalyst_g_xy.rules import doorRule
 
+model = ifcopenshell.open("path/to/ifcfile.ifc")
 
-model = ifcopenshell.open('somefile.ifc')
+windowResult = windowRule.checkRule(model)
+doorResult = doorRule.checkRule(model)
 
-result1 = analyst_gr10.rules.doorCheck.doCheck(model)
-result2 = analyst_gr11.rules.foobarCheck.doCheck(model)
-
-print(result1)
-print(result2)
+print("Window result:", windowResult)
+print("Door result:", doorResult)
