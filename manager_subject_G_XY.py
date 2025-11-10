@@ -13,7 +13,10 @@ from typing import Any, Dict, List, Optional
 #       def run_analysis(model_path: Path, out_dir: Path, options: Dict[str, Any] = dict()) -> AnalysisResults:
 #
 # It is the primary entry point for assesment of your work as a manager.
-# The function should return an AnalysisResults object containing all relevant output files and errors encountered during analysis
+# The function should return an AnalysisResults object containing paths to all relevant output files and errors encountered during analysis
+#
+# IMPORTANT! All output files must be written to the out_dir directory (or its subdirectories) provided as argument to the function.
+# Make sure to use the provided out_dir path for all output file operations (it's your responsibility that analysts also do so).
 
 # If your project for some reason cannot conform to this interface, please contact the course staff and we will find a solution.
 
@@ -21,6 +24,11 @@ from typing import Any, Dict, List, Optional
 # Data classes for structured results - DO NOT EDIT
 @dataclass
 class ResultItem:
+    """
+    This class describes a single result item produced by the analysis.
+    It can represent a report file, data file, or IFC model output.
+    This object contains the file path to the file, not the file content itself.
+    """
     file_path: Path # Path to the result file
     description: str # Brief description of the result file
     responsible_group: Optional[str] = None # Name of the analyst group responsible for this result (if applicable)
@@ -33,6 +41,9 @@ class AnalysisError:
 
 @dataclass
 class AnalysisResults:
+    """
+    This class encapsulates all results produced by the entire analysis (both manager and analyst results).
+    """
     main_report: ResultItem # The main report file (either a markdown or HTML file)
     errors: List[AnalysisError] = [] # List of errors encountered during analysis
 
